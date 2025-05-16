@@ -14,8 +14,8 @@ This list includes textbooks, essays, links to courses, and ebooks that I
 have written (also available as `.tex` files) that explore these themes.
 
 When the textbooks were freely available, I directly linked them here with 
-the PDF to download, otherwise, I linked to the website where they are 
-available (for purchase).
+the PDF to download (the titles are linked), otherwise, I linked to the website 
+where they are available (for purchase).
 
 ---
 
@@ -116,7 +116,7 @@ intuition often fails in ML contexts.
 
 ---
 
-### [My ebook 1: Navigating Machine Learning Projects]
+### My ebook 1: Navigating Machine Learning Projects
 
 This book is similar to the book Machine Learning Engineering from Andriy 
 Burkov. It is about how to make effective decisions in real world machine 
@@ -138,7 +138,7 @@ Python scripts. Therefore, this ebook has its [separate GitHub repo](https://git
 
 ---
 
-### [My ebook 2: Organising Machine Learning Projects]
+### My ebook 2: Organising Machine Learning Projects
 
 This book is about best practices and guidelinesfor organising ML projects. It 
 covers environment and dependency management, best practices for Git commits,
@@ -159,7 +159,7 @@ This book attempts to adress this.
 ---
 
 
-## Feedback
+## 💬 Feedback
 
 I would love to hear your thoughts. When think something in those books or 
 resources is incorrect (especially in the ones I have written) then you can 
