@@ -106,12 +106,12 @@ to make the best decisions.
 
 ---
 
-### [Hidden Technical Debt in Machine Learning Systems (Google Research)](https://papers.nips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf)
+### [Hidden Technical Debt in Machine Learning Systems (Google Research)](https://drive.google.com/file/d/1VVVJ4jP6hlm9WUcr-8PTVpnJMbNAAhDV/view?usp=sharing)
 
 A seminal paper that introduced the idea of "ML technical debt." It explains 
 how ML systems tend to accumulate complexity over time — through 
 configuration, data dependencies, monitoring, etc. Useful for understanding 
-**why ML in production is hard**, and why traditional software engineering 
+why ML in production is hard, and why traditional software engineering 
 intuition often fails in ML contexts.
 
 ---
