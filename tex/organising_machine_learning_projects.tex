@@ -1,0 +1,1283 @@
+\documentclass[12pt,openany]{book}
+
+% Packages
+\usepackage{amsmath} % For advanced math formatting (e.g., \max, \min, and align environments)
+\usepackage{amssymb}  % math symbols
+\usepackage{array}   % For advanced table formatting
+\usepackage{booktabs} % For professional-looking tables
+\usepackage{caption}  % For positioning table and figure descriptions.
+\usepackage{color, xcolor} % For colored shading
+\usepackage{etoolbox}  % stops LaTeX from trying to make pages look "full" by spacing everything out
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx} % For including arrows and images.
+\usepackage{helvet} % For Helvetica font
+\usepackage{hyperref} % For clickable table of contents
+\usepackage[top=1in, bottom=1in, left=0.75in, right=0.75in]{geometry}
+\usepackage{mdframed}
+\usepackage{pifont}
+\usepackage{pgfplots}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec} % For customizing section and chapter titles
+\usepackage{tikz}
+\usepackage{xcolor}
+
+
+\setlength{\headheight}{17pt} % Increase headheight to avoid fancyhdr warning: ensures header fits properly without clipping or layout issues
+
+\pgfplotsset{compat=1.18}  
+
+
+% Increase space between main text and footnote
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@makefntext}{\@thefnmark}{\@thefnmark\hspace{0.5em}}{}{}
+\setlength{\skip\footins}{1.5em}  % vertical space above footnotes
+\makeatother
+
+
+\captionsetup[table]{position=above}
+\captionsetup[figure]{position=below}
+
+\raggedbottom
+
+
+\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{shapes.geometric, arrows}
+
+
+\renewcommand{\familydefault}{\sfdefault} % Set sans-serif as default font family
+
+% Set up minimal fancy footer for page numbers
+\pagestyle{fancy}
+\fancyhf{} % Clear all headers and footers
+\fancyfoot[C]{\thepage} % Page number centered in the footer
+
+
+% Clear headers and footers
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+
+% Remove header line
+\renewcommand{\headrulewidth}{0pt}
+
+% Store part and chapter names
+\newcommand{\CurrentPartName}{}
+\newcommand{\CurrentChapterName}{}
+
+\renewcommand{\partmark}[1]{%
+  \renewcommand{\CurrentPartName}{\MakeUppercase{#1}}%
+}
+
+\renewcommand{\chaptermark}[1]{%
+  \renewcommand{\CurrentChapterName}{\MakeUppercase{#1}}%
+}
+
+% Show current chapter on top of each page
+\fancyhead[L]{%
+  \colorbox{gray!20}{%
+    \parbox{\dimexpr\textwidth-3.2mm}{%
+      \textbf{\textcolor{gray!60}{\CurrentChapterName}}%
+    }%
+  }%
+}
+
+
+
+% Apply fancy style
+\pagestyle{fancy}
+
+
+
+
+
+
+\fancyhead[C]{} % Remove the horizontal line
+\fancyhead[R]{} % Optional: Leave this empty or add something else
+\pagestyle{fancy}
+
+% Define the example environment
+\newmdenv[
+  backgroundcolor=gray!10, % Light gray background
+  linecolor=gray!50, % Border color
+  linewidth=1pt, % Border thickness
+  roundcorner=5pt, % Rounded corners
+  skipabove=10pt, % Space above the example
+  skipbelow=10pt, % Space below the example
+  innertopmargin=5pt, % Inner top margin
+  innerbottommargin=5pt, % Inner bottom margin
+  innerleftmargin=10pt, % Inner left margin
+  innerrightmargin=10pt, % Inner right margin
+  frametitlefont=\bfseries, % Title font style
+  frametitle={Example}, % Title text
+]{examplebox}
+% Write like this:
+% \begin{examplebox}
+% This is an example box. Use it to illustrate key concepts, provide practical use cases, or demonstrate % step-by-step workflows relevant to the text.
+% \end{examplebox}
+% Maximum is a single paragraph.
+
+
+% Define the Note box environment
+\newmdenv[
+  backgroundcolor=blue!5, % Light blue background
+  linecolor=blue!50, % Blue border color
+  linewidth=1pt, % Border thickness
+  roundcorner=3pt, % Slightly rounded corners
+  skipabove=10pt, % Space above the box
+  skipbelow=10pt, % Space below the box
+  innertopmargin=5pt, % Inner top margin
+  innerbottommargin=5pt, % Inner bottom margin
+  innerleftmargin=10pt, % Inner left margin
+  innerrightmargin=10pt, % Inner right margin
+  frametitlefont=\itshape, % Italic font style for the title
+  frametitle={Note}, % Title text
+]{notebox}
+% Write like this:
+% \begin{notebox}
+% This is an important note for readers. Use it to highlight additional context, tips, or cautions.
+% \end{notebox}
+% Maximum is a single paragraph, that should be kept very short. Use notes only sparingly.
+
+
+% Define the Summary box environment
+\newmdenv[
+  backgroundcolor=green!5, % Light green background
+  linecolor=green!50, % Green border color
+  linewidth=1pt, % Border thickness
+  roundcorner=5pt, % Rounded corners
+  skipabove=10pt, % Space above the box
+  skipbelow=10pt, % Space below the box
+  innertopmargin=5pt, % Inner top margin
+  innerbottommargin=5pt, % Inner bottom margin
+  innerleftmargin=10pt, % Inner left margin
+  innerrightmargin=10pt, % Inner right margin
+  frametitlefont=\bfseries, % Bold title font style
+  frametitle={Summary}, % Title text
+]{summarybox}
+% Write like this:
+% \begin{summarybox}
+% \begin{itemize}
+%   \item This is a summary point. Keep it concise and informative.
+%   \item Use only a few bullet points to summarize key ideas.
+%   \item Avoid lengthy explanations; focus on brevity and clarity.
+% \end{itemize}
+% \end{summarybox}
+% Maximum is a few bullet points, ideally 3–5.
+% Use the summary box sparingly to highlight essential takeaways for sections or chapters.
+
+
+% Definition of the keywordsbox environment
+\newtcolorbox{keywordsbox}{
+  colback=gray!5,
+  colframe=black!50,
+  fonttitle=\bfseries,
+  title=Keywords,
+  sharp corners,
+  boxrule=0.5pt,
+  left=6pt,
+  right=6pt,
+  top=4pt,
+  bottom=4pt,
+  before skip=10pt,
+  after skip=10pt
+}
+% Put such a box at the very beginning of a section when it makes sense to have keywords for that section. Don't force it!
+%Example:
+%\begin{keywordsbox}
+%Time series forecasting, autoregression, recurrent networks, horizon, lag %features, statistical models
+%\end{keywordsbox}
+
+
+
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+
+% No paragraph indentation
+\setlength{\parindent}{0pt}
+
+% Blue level headers ------------------------------------------------------------------------------
+% Part headers (centered, dark blue)
+\titleformat{\part}[display]
+  {\Huge\bfseries\color{blue!80}\filcenter} % Dark blue, centered
+  {\partname~\thepart}
+  {0.5em}
+  {\vspace*{1in}} % Push part header to middle of the page
+
+% Chapter headers (dark blue, left-aligned)
+\titleformat{\chapter}[display]
+  {\Huge\bfseries\color{blue!80}}
+  {\chaptername~\thechapter}
+  {0.5em}
+  {\vspace{1em}} % Small spacing after chapter number
+
+% Section headers (lighter blue)
+\titleformat{\section}[hang]
+  {\Large\bfseries\color{blue!60}}
+  {\thesection}
+  {1em}
+  {}
+
+% Subsection headers (even lighter blue)
+\titleformat{\subsection}[hang]
+  {\large\bfseries\color{blue!50}}
+  {\thesubsection}
+  {1em}
+  {}
+
+% Subsubsection headers (lightest blue)
+\titleformat{\subsubsection}[hang]
+  {\bfseries\color{blue!40}}
+  {\thesubsubsection}
+  {1em}
+  {}
+
+% Remove indentation
+\setlength{\parindent}{0pt}
+% ----------------------------------------------------------------------------------------
+
+
+\definecolor{darknavy}{RGB}{10, 20, 50}
+\definecolor{coverbg}{HTML}{f1eee7}
+
+
+
+% Formatting guidelines:
+% 1 empty line between paragraphs, figures, text-boxes, etc.
+% 2 empty lines before subsections
+% 3 empty lines before sections
+% 4 empty lines before chapters
+% 5 empty lines before parts
+
+
+
+
+
+
+
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \newpage
+    \thispagestyle{empty}
+    
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[coverbg] (current page.south west) rectangle (current page.north east);
+    \end{tikzpicture}
+    
+    \vspace*{2cm}
+    {\LARGE \textbf{\textcolor{darknavy}{Organising Machine Learning Projects}}} \\
+
+    \vspace{2cm}
+    \Large{\textcolor{darknavy}{\textbf{Thomas Rauter}}} \\
+
+    \vspace{0.5cm}
+    \large{\textcolor{darknavy}{Version 0.1.0}} \\
+    \large{\textcolor{darknavy}{\today}} \\
+
+    \vspace{1.5cm}
+    \includegraphics[width=0.7\textwidth]{Organizing_ML_Projects_frontpage_image.png}
+
+\end{titlepage}
+
+
+
+\chapter*{About This Book}
+\addcontentsline{toc}{chapter}{About This Book}
+
+\noindent
+\textit{“A true genius can only unfold in a messy environment.”}
+
+\vspace{1em}
+
+This quote is often used to describe the belief that disorder helps people be more innovative, and that strict rules or structure can limit great ideas. And there are many examples of brilliant people in history who worked in messy, chaotic ways and still produced amazing results. Albert Einstein, for example, once joked, \textit{“If a cluttered desk is a sign of a cluttered mind, of what, then, is an empty desk a sign?”} His words are often quoted to suggest that a bit of chaos might actually be a good thing for creative thinking. \newline
+
+However, I would argue for a refinement of this perspective:
+\textit{“A true genius is one who unfolds even in a messy environment.”} Not because of the disorder, but \textit{in spite of it}. \newline
+
+In the context of machine learning, this “mess” is not merely physical clutter or a disorganized workspace. It manifests in more subtle but equally destructive forms: datasets with undocumented provenance, poorly tracked experiments, inconsistent preprocessing pipelines, and cryptically named scripts and models. It is the proliferation of \texttt{final\_final\_revised2.ipynb} files, the absence of meaningful version control, and the slow erosion of reproducibility. \newline
+
+Even highly skilled practitioners can find themselves hamstrung — not by a lack of ability, but by environments that impede clarity, structure, and long-term sustainability. In a domain already characterized by complexity, uncertainty, and rapid iteration, disorganization becomes a silent but potent adversary. \newline
+
+This book was written in response to that challenge. It presents a collection of strategies, guidelines, and best practices aimed at maintaining organization and clarity throughout the lifecycle of a machine learning project. 
+
+
+
+
+
+
+
+% Set Table of Contents depth
+\setcounter{tocdepth}{1}
+
+% Table of Contents
+\tableofcontents
+
+\newpage
+
+
+
+
+\chapter{Environment and Dependency Management}
+
+Environment issues are one of the most common sources of wasted time in ML. Managing them properly from the start keeps your projects stable, reproducible, and easier to share or deploy. \newline
+
+
+Key takeaways are:
+\begin{itemize}
+    \item Always use isolated environments — never install globally
+    \item Always pin versions for shared or archived projects
+    \item Document the setup process clearly
+    \item Avoid assuming OS, GPU support, or global tools
+\end{itemize}
+
+At the time of writing this document, Python is the dominant language in machine learning, and this chapter focuses on environment and dependency management in Python-based workflows. Managing dependencies properly is essential for ensuring reproducibility, avoiding “works on my machine” errors, and enabling smooth collaboration across machines, users, and teams. \newline
+
+Machine learning projects often depend on dozens of libraries, each with their own versioning quirks and incompatibilities. A single package update can silently break your pipeline. Without isolation and version control, reproducing old experiments or onboarding collaborators becomes unnecessarily painful. This chapter outlines lightweight, practical strategies to avoid these issues.
+
+
+
+\section{Managing Dependencies}
+
+
+\subsection{Requirements Files}
+
+The most common format for Python projects is a \texttt{requirements.txt} file. It lists packages that your project depends on, optionally with pinned versions.
+
+\begin{itemize}
+    \item Use \texttt{pip freeze > requirements.txt} to capture all installed packages.
+    \item Prefer explicit version pinning (e.g., \texttt{scikit-learn==1.3.2}) for reproducibility.
+    \item Keep the file minimal by only including what your project truly needs.
+\end{itemize}
+
+
+\subsection{Conda Environments}
+
+If your project requires compiled libraries or specific versions of Python, Conda can manage both packages and environments more robustly than pip.
+
+\begin{itemize}
+    \item Use \texttt{conda env export > environment.yml} to create a shareable environment file.
+    \item Create the environment with \texttt{conda env create -f environment.yml}.
+    \item Conda is especially useful when dealing with packages like NumPy, SciPy, or GPU toolkits.
+\end{itemize}
+
+
+\subsection{Other Tools}
+
+Modern alternatives like Poetry and Pipenv offer more structure and automation, especially for packaging, but they are less common in prototyping-heavy ML workflows. Mention them only if your project already uses them.
+
+
+
+\section{Environment Isolation}
+
+Always isolate your project environment from the global Python installation. This prevents conflicts and unintended side effects.
+
+\subsection{Virtual Environments}
+
+Use \texttt{venv}, \texttt{virtualenv}, or Conda environments to create isolated spaces for each project.
+
+\begin{itemize}
+    \item Python built-in: \texttt{python -m venv .venv}
+    \item Activate with \texttt{source .venv/bin/activate} (Linux/macOS) or \texttt{.venv\textbackslash Scripts\textbackslash activate} (Windows)
+    \item Install dependencies into the virtual environment only
+\end{itemize}
+
+
+\subsection{Optional: Containers}
+
+For full reproducibility or deployment, consider containerizing your project with Docker. This ensures the exact same environment across machines and cloud servers. Use only when necessary due to higher setup overhead.
+
+
+
+\section{Reproducibility}
+
+To ensure others can rerun your code in the future:
+
+\begin{itemize}
+    \item Always pin package versions (use \texttt{==}, not \texttt{>=})
+    \item Log environment details with your experiment (e.g., \texttt{pip freeze > logs/env.txt})
+    \item Store Python version explicitly
+    \item Optional: include the Git commit hash in experiment metadata
+\end{itemize}
+
+
+
+
+\chapter{Git: When and How to Commit}
+
+
+
+\section{Why Git Discipline Matters in ML}
+
+Most machine learning projects rely heavily on Git for version control, yet few treat it with the same level of discipline as software engineering teams. This often leads to chaotic commit histories, lost experiments, and irreproducible results. While ad hoc Git usage may be fine for toy projects or solo prototyping, it breaks down quickly in real-world ML workflows that involve multiple datasets, experiment runs, scripts, and collaborators. \newline
+
+Unlike traditional software, ML projects include artifacts like datasets, model checkpoints, and evaluation results that are either too large or too dynamic to store directly in Git. Still, Git remains the central tool for tracking the state of the project codebase, including:
+\begin{itemize}
+    \item Preprocessing and feature engineering scripts
+    \item Model definitions and training logic
+    \item Evaluation routines and metric computations
+    \item Experiment configurations and runner scripts
+\end{itemize}
+
+Without clear commit messages, meaningful commit boundaries, and consistent linking between code versions and model artifacts, teams lose the ability to trace what changed, why it changed, and how it affected results. This leads to:
+\begin{itemize}
+    \item Models that can't be reproduced or explained
+    \item Debugging that becomes guesswork
+    \item Collaboration friction when multiple people modify shared components
+\end{itemize}
+
+Git discipline isn't about being pedantic—it’s about traceability, accountability, and being able to answer the most important question in ML: \textit{What exactly led to this result?}
+
+
+
+\section{How to Write Good Commit Messages}
+
+Clear, consistent commit messages are essential for understanding the evolution of an ML project. They document the intent behind changes, help collaborators follow your workflow, and are critical for debugging or reproducing past experiments. A well-written commit message should explain what was changed and why, not just how.
+
+\subsection*{Message Structure}
+
+A good commit message typically consists of:
+
+\begin{itemize}
+    \item \textbf{Summary line}: A brief, imperative description of the change (e.g., \texttt{Add target encoding for geo features}).
+    \item \textbf{Body (optional)}: A more detailed explanation, including motivation, context, or references to dataset or experiment versions.
+\end{itemize}
+
+Use the imperative mood (e.g., \texttt{Fix}, \texttt{Add}, \texttt{Refactor}) as if you are giving a command. This aligns with how changes are read in Git history.
+
+\subsection*{Best Practices}
+
+\begin{itemize}
+    \item Be specific: Avoid vague messages like \texttt{update} or \texttt{fix bug}.
+    \item Include context: Reference dataset version names, script IDs, or experiment tags when applicable.
+    \item Keep it concise: The summary should be under 72 characters when possible.
+    \item Use consistent style: Adopt a convention and apply it across the project (e.g., \texttt{feat:}, \texttt{fix:}, \texttt{refactor:}).
+\end{itemize}
+
+\subsection*{Example}
+
+\begin{verbatim}
+feat: add target encoding for geo features (teG)
+
+Applies target encoding to categorical geo features using
+train set statistics only. Affects trainR99, devR1, and testR1.
+Script: target_encode_geo.py
+\end{verbatim}
+
+A clean Git history is not just for readability—it forms the backbone of a reproducible, traceable ML pipeline. Well-structured messages ensure that changes can be audited and understood long after the fact.
+
+
+
+\section{When to Commit}
+
+Deciding when to commit is just as important as writing good commit messages. In machine learning projects, where code evolves alongside data transformations, experiments, and model iterations, commit timing directly impacts the traceability and stability of the project. \newline
+
+Avoid committing arbitrary checkpoints or code in a half-working state. Instead, commit when you reach a clear, self-contained milestone in your workflow. A commit should represent a logically complete unit of work that others (or your future self) can understand and, if needed, revert cleanly.
+
+\subsection*{Commit When:}
+\begin{itemize}
+    \item You finish writing a new dataset modification script.
+    \item You implement or refactor a preprocessing or model training function.
+    \item You start an experiment that you might want to reproduce or debug later.
+    \item You update configuration files or hyperparameters that affect results.
+    \item You clean up, rename, or restructure parts of the project.
+\end{itemize}
+
+\subsection*{Avoid Committing When:}
+\begin{itemize}
+    \item You’re midway through a broken or half-tested change.
+    \item You’ve mixed multiple unrelated changes into one file without clear separation.
+    \item You’re only temporarily editing parameters or debugging code without a clear purpose.
+\end{itemize}
+
+Frequent, well-scoped commits make it easier to track progress, isolate bugs, and link code to model artifacts or dataset versions. Before running any long experiment, it's good practice to commit the current state of the code to ensure that the exact training context is preserved.
+
+
+
+
+
+
+
+
+\chapter{Documentation}
+
+Machine learning projects are notoriously difficult to revisit. Between evolving datasets, fragile pipelines, and countless experiment versions, it is easy to lose track of what was done and why. Proper documentation is not just a courtesy to collaborators --- it is a safeguard for your future self and for the long-term maintainability of the project.
+
+In this chapter, we break documentation down into four practical layers, each addressing a specific component of an ML workflow:
+
+\begin{enumerate}
+    \item \textbf{Project-level documentation} – the overarching goals, project structure, and major design decisions.
+    \item \textbf{Data documentation} – details about the datasets used, how they were prepared, and any known limitations.
+    \item \textbf{Model documentation} – how models were selected, trained, evaluated, and how key choices were made.
+    \item \textbf{Code documentation} – making your code understandable and usable without requiring deep dives into the implementation.
+\end{enumerate}
+
+
+\section{Project-Level Documentation}
+
+Clear project-level documentation provides the foundation for understanding the entire machine learning workflow. It helps new collaborators, reviewers, or even your future self quickly grasp what the project is about, what decisions were made, and how the work is structured. This section outlines the key elements to include at the project level.
+
+\subsection{Project Purpose and Scope}
+
+Begin by stating the overarching goal of the project. What problem does it aim to solve? Who are the intended users or stakeholders? Clearly define the expected inputs and outputs of the system. Also, specify the boundaries: what aspects are intentionally excluded or left for future work?
+
+\textbf{Example:} This project aims to predict customer churn within a 30-day window using behavioral data from subscription logs. It focuses on structured tabular data and does not incorporate text or image modalities.
+
+\subsection{Problem Statement}
+
+Provide a concise and specific definition of the machine learning task. This includes the type of learning (e.g., classification, regression), the domain context (e.g., finance, healthcare), and any constraints or assumptions.
+
+\textbf{Example:} The task is a binary classification problem where the goal is to predict whether a user will churn based on their last 60 days of activity.
+
+\subsection{Key Decisions and Trade-Offs}
+
+Document the critical decisions made during the project, especially where multiple options were available. For example, explain why a random forest was chosen over a gradient boosting model, or why a specific data split strategy was adopted. Highlight trade-offs that were accepted — such as favoring speed over interpretability, or choosing a simpler model due to limited data.
+
+\textbf{Example:} A time-based validation split was used instead of k-fold cross-validation due to the temporal nature of the data. Logistic regression was initially considered but rejected due to poor performance on recall.
+
+\subsection{Folder and File Structure}
+
+Briefly describe the organization of your codebase and data. Explain the purpose of major directories (e.g., \texttt{src/}, \texttt{data/}, \texttt{models/}, \texttt{reports/}), and where to find the main scripts or notebooks. If applicable, describe naming conventions or file versioning practices.
+
+\textbf{Example:} The \texttt{src/models/} directory contains model definitions. All experiment scripts follow the pattern \texttt{run\_XXX\_modelname.py}, where \texttt{XXX} is the run ID.
+
+\subsection{Optional: Project Metadata}
+
+Optionally, include basic metadata about the project. This may include start and end dates, main contributors, contact information, software stack (e.g., Python version, major libraries), and project status (active, completed, archived). Also link to the version control repository and any relevant project trackers.
+
+\textbf{Example:}
+\begin{itemize}
+    \item \textbf{Author:} Jane Doe
+    \item \textbf{Start Date:} March 2024
+    \item \textbf{Python Version:} 3.10
+    \item \textbf{Libraries:} PyTorch, pandas, scikit-learn
+    \item \textbf{Repository:} \texttt{github.com/org/project}
+    \item \textbf{Status:} Ongoing
+\end{itemize}
+
+
+\section{Data Documentation}
+
+Data is the foundation of any machine learning project, yet it is often the least well-documented. Poorly described datasets lead to confusion, bugs, and irreproducible results. This section outlines how to clearly document the data you use, its structure, how it was processed, and any caveats or risks that may affect downstream modeling.
+
+\subsection{Data Sources}
+
+Begin by describing where the data originated. Was it collected internally, downloaded from a public repository, purchased from a third party, or synthetically generated? Specify whether the data is raw, aggregated, or already preprocessed. If applicable, mention the version or snapshot date to ensure reproducibility.
+
+\textbf{Example:} The dataset was sourced from internal logging systems and reflects user activity between January 2022 and December 2023. A snapshot was taken on January 5th, 2024 for model development.
+
+\subsection{Data Format and Structure}
+
+Provide an overview of the dataset's structure. What is the file format (e.g., CSV, Parquet, SQL)? How many rows and columns are present? If working with multiple tables, describe how they relate to each other (e.g., one-to-many relationships, joins, or keys). 
+
+\textbf{Example:} The data consists of three CSV files: \texttt{users.csv}, \texttt{sessions.csv}, and \texttt{transactions.csv}, joined via a shared \texttt{user\_id} field.
+
+\subsection{Schema and Field Descriptions}
+
+Document each column in the dataset with the following details:
+\begin{itemize}
+    \item \textbf{Name}: Column name as it appears in the data.
+    \item \textbf{Type}: Numerical, categorical, datetime, text, etc.
+    \item \textbf{Description}: What the column represents, including units, valid ranges, and encoded meanings if applicable.
+\end{itemize}
+
+\textbf{Example:}
+\begin{itemize}
+    \item \texttt{signup\_date} (datetime): Date when the user registered. Format: \texttt{YYYY-MM-DD}.
+    \item \texttt{is\_premium} (binary): 1 if the user subscribed to a premium plan, 0 otherwise.
+    \item \texttt{num\_sessions\_last30} (integer): Number of app sessions in the last 30 days.
+\end{itemize}
+
+\subsection{Preprocessing and Cleaning Steps}
+
+List and justify the preprocessing steps applied to the raw data. This includes handling of missing values, outlier treatment, transformations, and any feature engineering performed prior to modeling. Emphasize any irreversible operations and note whether they were applied globally or only to training data.
+
+\textbf{Example:} Missing age values were imputed using the median within each user segment. Log transformation was applied to \texttt{num\_sessions} to reduce right skew.
+
+\subsection{Assumptions and Known Issues}
+
+Document any assumptions made about the data, and highlight known limitations. Common issues include:
+\begin{itemize}
+    \item Class imbalance
+    \item Feature leakage
+    \item Temporal dependency or autocorrelation
+    \item Inconsistent labeling or data entry errors
+\end{itemize}
+
+\textbf{Example:} The positive class (churners) accounts for only 8\% of the training data. Some fields such as \texttt{referral\_source} are incomplete for older users.
+
+\subsection{Data Subsets and Splits}
+
+Explain how the dataset was divided for training, validation, and testing. Include:
+\begin{itemize}
+    \item The splitting strategy (random, stratified, time-based)
+    \item Whether any data leakage risks were mitigated
+    \item The proportion of each subset
+\end{itemize}
+
+\textbf{Example:} A time-based split was used to mimic production conditions. Data before October 2023 was used for training (80\%), and data from October to December 2023 was used for testing (20\%). The test set remained untouched until final model evaluation.
+
+
+\section{Model Documentation}
+
+Model documentation captures the decisions and procedures that led to a trained model. It allows others (or your future self) to understand what was tried, how it was evaluated, and why certain approaches were chosen. This section ensures that your modeling process is reproducible, interpretable, and auditable.
+
+\subsection{Baselines and Candidate Models}
+
+Start by listing the baseline(s) you used for comparison. A baseline can be as simple as a majority class predictor, a logistic regression, or a previously deployed model. Then describe the candidate models you considered and explain why you selected them.
+
+\textbf{Example:} The baseline was a logistic regression with default parameters. Random Forest, Gradient Boosting (XGBoost), and a shallow neural network were evaluated. XGBoost was selected for its superior precision-recall performance and fast training time.
+
+\subsection{Hyperparameters and Tuning Strategy}
+
+Document the key hyperparameters of the selected model(s) and how they were tuned. Mention whether tuning was manual, grid-based, randomized, or Bayesian. Include the search space and final values.
+
+\textbf{Example:} Hyperparameters for XGBoost were tuned using randomized search over 50 iterations. Final settings: \texttt{max\_depth=4}, \texttt{learning\_rate=0.05}, \texttt{subsample=0.8}, \texttt{n\_estimators=200}.
+
+\subsection{Training Procedure}
+
+Describe the specifics of the model training pipeline. Include:
+\begin{itemize}
+    \item Loss function used (e.g., cross-entropy, MSE)
+    \item Optimizer (e.g., Adam, SGD), if applicable
+    \item Batch size and number of epochs
+    \item Early stopping criteria or checkpointing logic
+    \item Whether random seeds were fixed and how
+\end{itemize}
+
+\textbf{Example:} The model was trained with cross-entropy loss and early stopping after 10 epochs of no improvement in validation F1-score. A fixed random seed (42) was used to ensure reproducibility.
+
+\subsection{Evaluation and Validation Strategy}
+
+Explain how model performance was assessed. Include:
+\begin{itemize}
+    \item Evaluation metrics (e.g., accuracy, ROC AUC, F1, MAE)
+    \item Validation strategy (e.g., k-fold, stratified split, time-based split)
+    \item Justification for chosen metrics and strategy
+    \item Any limitations or concerns with evaluation (e.g., overfitting, unfairness, poor subgroup performance)
+\end{itemize}
+
+\textbf{Example:} Model evaluation used ROC AUC and average precision (AP). Due to strong class imbalance, AP was prioritized. A stratified 5-fold cross-validation was used for training; the test set was kept untouched until final model selection.
+
+\textbf{Known Limitation:} Model performance on the smallest user segment (10\% of the data) was significantly lower, indicating potential fairness concerns. Further subgroup analysis is needed.
+
+\textbf{Tip:} Consider summarizing the final model in a separate file, such as \texttt{model\_card.md}, including key stats, performance, and intended use.
+
+
+
+\section{Code Documentation}
+
+Readable and well-documented code is essential for collaboration, maintenance, and debugging. While not every line needs a comment, key functions, modules, and scripts should be understandable without diving deep into the implementation. This section outlines how to document your code effectively without overdoing it.
+
+\subsection{Comments and Inline Explanations}
+
+Use comments sparingly and purposefully. Focus on explaining \emph{why} something is done — not \emph{what} is happening when the code is already self-explanatory. Avoid restating code logic in words.
+
+\textbf{Example (bad):}
+\begin{verbatim}
+# Add 1 to each value in the list
+values = [x + 1 for x in values]
+\end{verbatim}
+
+\textbf{Example (better):}
+\begin{verbatim}
+# Offset to ensure no zero values before log-transform
+values = [x + 1 for x in values]
+\end{verbatim}
+
+\subsection{Function and Module Docstrings}
+
+Every publicly used function should have a docstring that explains:
+\begin{itemize}
+    \item What the function does
+    \item Its input arguments and expected types
+    \item Its return value(s) and types
+    \item Any important side effects or assumptions
+\end{itemize}
+
+\textbf{Example (Python-style):}
+\begin{verbatim}
+def normalize_vector(v):
+    """
+    Normalize a numeric vector to unit length.
+
+    Parameters:
+        v (list or np.array): A numeric vector.
+
+    Returns:
+        np.array: The normalized vector with L2 norm = 1.
+    """
+    ...
+\end{verbatim}
+
+Use consistent formatting (e.g., Google style, NumPy style, or reStructuredText) across the project.
+
+\subsection{Script Usage and CLI Help}
+
+For key scripts (e.g., training, prediction, evaluation), provide:
+\begin{itemize}
+    \item A short usage example in the \texttt{README.md}
+    \item An argument parser that provides \texttt{--help} descriptions
+\end{itemize}
+
+\textbf{Example:}
+\begin{verbatim}
+$ python train_model.py --config configs/xgb.yaml --output models/xgb_model.pkl
+\end{verbatim}
+
+\textbf{Tip:} If your scripts have many arguments, consider using a configuration file (e.g., YAML or JSON) and documenting the expected format in a separate file.
+
+\subsection{Folder-Level README Files}
+
+If your project has a modular structure, include brief \texttt{README.md} files inside key folders to describe their purpose. For example:
+
+\begin{itemize}
+    \item \texttt{src/}: Contains core logic, model code, and utilities.
+    \item \texttt{notebooks/}: Prototyping and exploratory analysis.
+    \item \texttt{scripts/}: Executable scripts for training, prediction, etc.
+\end{itemize}
+
+This helps users understand the layout without needing to guess what each folder contains.
+
+\textbf{Tip:} Avoid deeply nested directories. Flat and consistent structure improves discoverability.
+
+\subsection{Coding Conventions and Linting}
+
+Use a consistent coding style throughout the project (e.g., PEP8 for Python). If possible, enforce formatting and linting with tools like \texttt{black}, \texttt{flake8}, or \texttt{pre-commit}. Mention these tools in the \texttt{README.md} and include configuration files when applicable.
+
+\textbf{Example:} All Python code in this project follows PEP8 and is autoformatted with \texttt{black}. Static analysis is performed using \texttt{ruff}.
+
+
+
+
+\chapter{Experiment Logging and Tracking}
+
+In machine learning projects, keeping track of experiments is not optional — it is essential. Model behavior can change significantly with different seeds, data splits, preprocessing pipelines, or hyperparameters. Without a systematic approach to logging experiments, it's nearly impossible to reproduce results, compare models, or understand which configurations led to success or failure. \newline
+
+Experiment logging is distinct from documentation. Documentation explains what was done and why, often written manually. Logging, on the other hand, captures \emph{what actually happened} — in real time, and often in an automated or semi-automated way. The two are complementary: documentation frames the intent, while logging records the execution and outcome.
+
+This chapter introduces practical strategies for logging and tracking machine learning experiments. We focus on four aspects:
+
+\begin{itemize}
+    \item What to track during each run, from metadata to artifacts
+    \item How to log experiments, both manually and using tools
+    \item How to structure experiments and naming conventions to stay organized
+    \item Tool-based logging with frameworks like MLflow and Weights \& Biases
+\end{itemize}
+
+The goal is not to create excessive overhead or bloat, but to build a lightweight and maintainable habit of recording the essential facts about every model run. Doing this consistently saves time, prevents confusion, and builds trust in your results.
+
+
+
+\section{What to Track in an Experiment}
+
+A well-structured experiment log captures more than just a final score. It records all relevant inputs, parameters, outputs, and contextual information that could affect results. In this section, we break down the core components you should track for every model run.
+
+\subsection{Metadata}
+
+Each experiment should have a unique identifier and basic metadata that enables you to trace when, where, and by whom it was run.
+
+\begin{itemize}
+    \item \textbf{Experiment ID or Name:} A short, unique string. Use timestamps or version numbers.
+    \item \textbf{Date and Time:} When the experiment was started.
+    \item \textbf{Author:} Who ran the experiment.
+    \item \textbf{Code Version:} Git commit hash or version tag.
+    \item \textbf{Environment:} Python version, library versions, GPU/CPU specs if relevant.
+\end{itemize}
+
+\textbf{Example:} \texttt{exp\_2025\_05\_04\_xgb\_lr0.05}, run by Alice, using Git commit \texttt{a7d31c1}.
+
+\subsection{Configuration}
+
+Log every parameter that could influence results. This includes model-specific hyperparameters, preprocessing choices, and any random seeds.
+
+\begin{itemize}
+    \item \textbf{Model Type:} e.g., XGBoost, logistic regression, MLP.
+    \item \textbf{Hyperparameters:} Learning rate, max depth, batch size, dropout rate, etc.
+    \item \textbf{Preprocessing Settings:} Normalization method, imputation strategy, categorical encoding.
+    \item \textbf{Seed and Randomness Control:} Set and log all random seeds used across libraries (NumPy, PyTorch, etc.).
+    \item \textbf{Data Version or Source:} If data was updated or filtered, record the version or filtering rule.
+\end{itemize}
+
+\textbf{Tip:} Store configuration as structured files (e.g., YAML, JSON) and log the full config per run.
+
+\subsection{Results}
+
+The core output of any experiment includes performance metrics and, if relevant, loss curves or validation plots. Track both training and validation results — and test results only for finalized models.
+
+\begin{itemize}
+    \item \textbf{Metrics:} Accuracy, F1 score, ROC AUC, MAE, etc.
+    \item \textbf{Per-Split Scores:} Train/validation/test where applicable.
+    \item \textbf{Loss Curves:} Optional but useful for debugging overfitting or unstable training.
+    \item \textbf{Training Time and Resource Usage:} Total training duration, number of epochs, and optional system stats.
+\end{itemize}
+
+\textbf{Example:} Validation F1 = 0.842, training time = 2.7 minutes, early stopping triggered at epoch 38.
+
+\subsection{Artifacts}
+
+Experiments often generate outputs that need to be stored and linked back to their corresponding run.
+
+\begin{itemize}
+    \item \textbf{Trained Models:} Serialized model files (e.g., \texttt{.pkl}, \texttt{.pt}, \texttt{.h5}).
+    \item \textbf{Generated Outputs:} Predictions, embeddings, or probability scores.
+    \item \textbf{Diagnostic Plots:} Confusion matrices, ROC/PR curves, feature importances.
+    \item \textbf{Logs and Errors:} Standard output logs, warnings, and exceptions.
+\end{itemize}
+
+Artifacts should be named or stored in a way that clearly ties them to the specific experiment ID.
+
+\textbf{Tip:} Avoid relying on memory. If you can’t recreate the model or results from logs and artifacts, the experiment might as well have never happened.
+
+
+
+\section{Logging Strategies}
+
+Once you know what to track, the next question is how to track it. Logging strategies can range from simple manual entries to fully automated systems integrated with experiment tracking tools. The right level of complexity depends on your project scale, team size, and tolerance for setup overhead. This section presents three practical options: manual logging, scripted logging, and tool-based logging.
+
+\subsection{Manual Logging (Minimal Setup)}
+
+Manual logging is the simplest way to begin tracking experiments. You record key configuration parameters, metrics, and comments in a structured format — usually in a spreadsheet, Markdown file, or plain text log.
+
+\begin{itemize}
+    \item Create a table with columns like: experiment ID, model type, learning rate, accuracy, notes.
+    \item Maintain a changelog or lab notebook (e.g., \texttt{experiments.md}) in your project root.
+    \item Save output files and models in a consistent directory structure with meaningful names.
+\end{itemize}
+
+\textbf{Pros:} No dependencies, easy to start.  
+\textbf{Cons:} Error-prone, inconsistent, not scalable for large projects.
+
+\textbf{Tip:} Use clear naming conventions (e.g., \texttt{model\_lr0.01\_run3.pkl}) and keep a template to avoid missing fields.
+
+\subsection{Scripted Logging}
+
+In scripted logging, your training scripts automatically log parameters and results to a structured file (e.g., JSON, CSV) at runtime. This removes manual effort and reduces inconsistency.
+
+\begin{itemize}
+    \item Define a logging function, e.g., \texttt{log\_experiment(config, metrics, path)}.
+    \item Write results to \texttt{logs/} as \texttt{.json} or \texttt{.csv} files with the experiment ID as the filename.
+    \item Optionally log start and end timestamps, training duration, and exceptions.
+\end{itemize}
+
+\textbf{Pros:} Reproducible, consistent, and tool-agnostic.  
+\textbf{Cons:} Requires initial setup and discipline in calling the logger.
+
+\textbf{Example:}
+\begin{verbatim}
+{
+  "id": "2025-05-04_xgb_lr0.05",
+  "accuracy": 0.842,
+  "train_time_sec": 162,
+  "params": {
+    "max_depth": 4,
+    "learning_rate": 0.05
+  }
+}
+\end{verbatim}
+
+\subsection{Tool-Based Logging (MLflow, W\&B, etc.)}
+
+When projects grow in complexity or team size, it's worth investing in dedicated experiment tracking tools. These tools automatically record configurations, metrics, and artifacts with minimal boilerplate and provide a user-friendly UI for comparing runs.
+
+\begin{itemize}
+    \item \textbf{MLflow:} Lightweight, open-source, supports local and remote tracking servers.
+    \item \textbf{Weights \& Biases (W\&B):} Cloud-based, rich visualization tools, collaborative features.
+    \item \textbf{Comet, Sacred, Neptune.ai, TensorBoard:} Alternatives with various trade-offs.
+\end{itemize}
+
+\textbf{Typical features:}
+\begin{itemize}
+    \item Parameter and metric logging with one-liners.
+    \item Run comparison dashboards.
+    \item Artifact versioning (models, plots, predictions).
+    \item Tags, notes, and filters for searchability.
+\end{itemize}
+
+\textbf{Pros:} Powerful, scalable, supports teams.  
+\textbf{Cons:} Tool lock-in, initial configuration overhead, cloud/data privacy considerations.
+
+\textbf{Tip:} Abstract the logging interface (e.g., wrap MLflow/W\&B calls) so you can switch tools without rewriting your entire pipeline.
+
+
+
+\section{Structuring Experiments}
+
+Good experiment tracking is not just about logging — it’s also about maintaining a logical, consistent structure that helps you find and compare results later. This section outlines practical guidelines for naming runs, organizing output files, and keeping your experiment directory clean and scalable.
+
+\subsection{Naming Conventions for Experiments}
+
+Every experiment should have a unique, human-readable name that encodes key information. A good naming scheme reduces the need to open logs or files just to figure out what a run did. \newline
+
+\textbf{Recommended structure:}
+\begin{verbatim}
+YYYY-MM-DD_modeltype_keyparamvalue_keyparamvalue
+\end{verbatim}
+
+\textbf{Example:} \texttt{2025-05-04\_xgb\_lr0.01\_bs32}
+
+\begin{itemize}
+    \item Use ISO 8601 date format (\texttt{YYYY-MM-DD}) for easy sorting.
+    \item Include the model type and 1–2 key parameters (e.g., learning rate, batch size).
+    \item Avoid spaces, uppercase letters, or overly long names.
+\end{itemize}
+
+If using a tool like MLflow or W\&B, use these names as run tags or notes so that they remain visible in the UI.
+
+\subsection{Organizing Outputs and Logs}
+
+Structure your project to isolate the outputs of each experiment. A simple but effective pattern is to create a subfolder per run in a central directory like \texttt{runs/} or \texttt{outputs/}. \newline
+
+\textbf{Example structure:}
+\begin{verbatim}
+runs/
+|- 2025-05-04_xgb_lr0.01_bs32/
+|  |- config.yaml
+|  |- metrics.json
+|  |- model.pkl
+|  |- predictions.csv
+|  \_ plot_roc.png
+\_ 2025-05-04_xgb_lr0.05_bs64/
+   \_ ...
+\end{verbatim}
+
+
+This layout makes it easy to compare outputs, share models, or re-evaluate results. Each folder is a self-contained record of a single experiment.
+
+\subsection{Versioning Models and Configs}
+
+Models and configuration files should be versioned together. Never overwrite a model file without recording the associated configuration or commit hash.
+
+\begin{itemize}
+    \item Save the exact configuration (YAML, JSON) used for each run.
+    \item Link model files to experiment names and log them with the same ID.
+    \item Optionally store the Git commit hash alongside each run for full traceability.
+\end{itemize}
+
+\textbf{Tip:} If you're not using automated tools, write a small script to zip each run folder or sync it to remote storage (e.g., AWS S3, Nextcloud, Google Drive).
+
+\subsection{Separating Exploratory and Formal Runs}
+
+In early phases, it's common to run dozens of experiments casually. To avoid polluting your main logs with low-quality or incomplete runs:
+
+\begin{itemize}
+    \item Use a separate folder like \texttt{exploratory\_runs/} or tag them with \texttt{exploratory = true}.
+    \item Clean up or archive experiments that are no longer relevant.
+    \item Promote runs to the main tracking set only once they meet quality thresholds (e.g., reproducibility, complete metrics).
+\end{itemize}
+
+This discipline helps keep your core experiment logs clear and meaningful, especially when working with others or preparing reports.
+
+
+
+
+\chapter{Dataset Versioning}
+
+In any real-world machine learning project, datasets evolve over time: new features are added, preprocessing methods change, and additional sources are integrated. Keeping track of these versions in a clear and reproducible way is essential to ensure transparency and reliability throughout the modeling pipeline.
+
+
+
+\section{Compositional Naming System}
+
+This section introduces a lightweight, modular system for naming and tracking dataset versions.
+
+
+\subsection{Underscore-path naming}
+
+Each dataset version name encodes its modification lineage using an underscore-separated format. Each ID in the path represents a specific step or operation applied to the data. The path is read from left to right, with each new ID indicating a modification built upon the previous one. All IDs used in a version name must be defined in the modification glossary (see below).
+\newline
+
+For example:
+
+\begin{itemize}
+    \item \texttt{trainR99} -- training split (random selection of 99\% of raw data)
+    \item \texttt{trainR99\_teG} -- applied target encoding
+    \item \texttt{trainR99\_teG\_ohe} -- applied one-hot encoding
+\end{itemize}
+
+And separately for the dev set (and also for the test set):
+
+\begin{itemize}
+    \item \texttt{devR1} -- dev split (random selection of 1\% of raw data)
+    \item \texttt{devR1\_teG} -- applied target encoding
+    \item \texttt{devR1\_teG\_ohe} -- applied one-hot encoding
+\end{itemize}
+
+
+\subsection{Structure of modification scripts}
+
+Each dataset modification must be implemented as a standalone script that performs exactly one clearly defined transformation. Just like good function design, these scripts should follow the \textit{single responsibility principle}: they must do one thing and do it well.
+
+Every modification script should:
+\begin{itemize}
+    \item Load the train, dev, and test datasets of the previous version.
+    \item Apply a single transformation to all three datasets, using only statistics derived from the \textbf{train set}.
+    \item Save the modified datasets under the new version names, using the same format as input (e.g., CSV).
+    \item Do nothing else — no format conversion, no additional preprocessing steps.
+\end{itemize}
+
+This strict structure ensures modularity and reusability. It also prevents data leakage by ensuring that any transformation relying on data statistics (e.g., normalization, encoding) is fit only on the training data, and then applied identically to the dev and test sets.
+
+\subsubsection*{Example Script: Z-Score Normalization}
+
+\begin{verbatim}
+import pandas as pd
+
+# Load previous version datasets
+train = pd.read_csv("trainR99.csv")
+dev = pd.read_csv("devR1.csv")
+test = pd.read_csv("testR1.csv")
+
+# Compute mean and std on train only
+mean = train["feature_x"].mean()
+std = train["feature_x"].std()
+
+# Apply normalization
+train["feature_x"] = (train["feature_x"] - mean) / std
+dev["feature_x"] = (dev["feature_x"] - mean) / std
+test["feature_x"] = (test["feature_x"] - mean) / std
+
+# Save modified datasets
+train.to_csv("trainR99_zscore.csv", index=False)
+dev.to_csv("devR1_zscore.csv", index=False)
+test.to_csv("testR1_zscore.csv", index=False)
+\end{verbatim}
+
+
+\subsection{Modification glossary}
+
+The modification glossary (example shown in Table~\ref{tab:mod_glossary}) defines all modification IDs used in the dataset version names. Each row specifies a unique identifier, a human-readable description of the modification, and the exact script responsible for applying it. 
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\caption{Example modification glossary with the columns ID (unique identifier for data change) Description (human understandable documentation of data change), and Script (exact file name (optionally also with path) of the script used to carry out the data change)}
+\label{tab:mod_glossary}
+\begin{tabular}{|l|p{9.5cm}|p{4.2cm}|}
+\hline
+\textbf{ID} & \textbf{Description} & \textbf{Script} \\
+\hline
+trainR99 & 99\% of raw data used as train set (random split) & \texttt{split\_raw\_data.py} \\
+devR1    & 1\% of raw data used as dev set (random split) & \texttt{split\_raw\_data.py} \\
+teG      & Target encoding for geo features & \texttt{target\_encode\_geo.py} \\
+ohe      & One-hot encoding for categoricals & \texttt{one\_hot\_encode.py} \\
+\hline
+\end{tabular}
+\end{table}
+
+Each ID must be unique, and each modification should represent a single, well-defined change. Accordingly, each code in the version name should correspond to exactly one script that performs that specific step. Avoid combining multiple changes into a single modification (e.g.\ \texttt{tohe} \(\rightarrow\) \texttt{target\_and\_one\_hot\_encode.py}); instead, apply each change separately with one script per step. This ensures modularity, clarity, and scalability in dataset versioning.
+
+
+\subsection{Version Table}
+
+The table shown in ~\ref{tab:dataset_versions} logs each dataset version along with its metadata. Each version has both a long, explicit \textit{version name}, and a short, systematic \textit{version ID}. The version name is descriptive and can be used for filenames where full clarity is needed. The version ID is a concise, unique reference that can be used in model names or scripts where brevity is important. The version IDs systematically distinguish between train (\texttt{trdv}), dev (\texttt{ddv}), and test (\texttt{tedv}) splits, followed by a three-digit number shared across the splits of the same dataset.
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\caption{Example of a version table}
+\label{tab:dataset_versions}
+\begin{tabular}{|l|l|p{2.5cm}|p{2.5cm}|p{5.5cm}|}
+\hline
+\textbf{Version Name} & \textbf{Version ID} & \textbf{Date} & \textbf{Person} & \textbf{Comment} \\
+\hline
+trainR99 & trdv001 & 2025-03-29 & Thomas & Initial split (1\% dev and test) \\
+devR1 & ddv001 & & & \\
+testR1 & tedv001 & & & \\
+\hline
+trainR99\_teG & trdv002 & 2025-04-01 & Thomas & Target encoding \\
+devR1\_teG & ddv002 & & & \\
+testR1\_teG & tedv002 & & & \\
+\hline
+trainR99\_teG\_ohe & trdv003 & 2025-04-03 & Thomas & One-hot encoding \\
+devR1\_teG\_ohe & ddv003 & & & \\
+testR1\_teG\_ohe & tedv003 & & & \\
+\hline
+trainR99\_teG\_ohe\_ext & trdv004 & 2025-04-05 & Thomas & Integrated external features \\
+devR1\_teG\_ohe\_ext & ddv004 & & & \\
+testR1\_teG\_ohe\_ext & tedv004 & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Example: Project Directory Structure}
+
+The following example directory structure illustrates how this tree-based system can be implemented in practice:
+
+\begin{verbatim}
+project/
+|- data/
+   |- raw/
+   |  |- data_values.csv
+   |  |- data_labels.csv
+   |- modified/
+      |- modification_glossary.csv
+      |- version_table.csv
+      |- datasets/
+         |- trainR99.csv
+         |- trainR99_ohe.csv
+         |- devR1.csv
+         |- devR1_ohe.csv
+\end{verbatim}
+
+\begin{itemize}
+    \item The \texttt{raw} directory contains the original dataset files. These are immutable.
+    \item The \texttt{modified} directory contains the modification glossary and the version table, and the subdirectory \texttt{datasets} with all the modified datasets (the different versions).
+\end{itemize}
+
+
+
+\section{Levels of Data Versioning}
+
+There are different levels of data versioning strategies. Depending on the scale and automation level of a machine learning project, data can be versioned at varying levels of complexity. This section summarizes four progressively more robust approaches, adapted from the book \textit{Machine Learning Engineering} by Andriy Burkov. \newline
+
+Note: The levels of data versioning are indipendent of the data version naming system. You can use any naming system with any level.
+
+
+\subsection*{Level 0: Unversioned Data (Not Recommended)}
+
+At this level, data exists in raw form on local drives, object storage, or databases, but is not versioned in any way. While simple and fast, this approach prevents reproducibility and makes debugging or rollbacks impossible. Since model deployments rely on both code and data, unversioned data renders deployments fundamentally non-reproducible. Avoid this level entirely in any serious workflow.
+
+
+\subsection*{Level 1: Snapshot-Based Versioning}
+
+Data is versioned by creating a snapshot at training time—typically saved manually or tracked in a spreadsheet. Each snapshot includes the training dataset, related code, hyperparameters, and relevant metadata. This method supports basic reproducibility and rollbacks, and may be sufficient for small-scale or infrequent model updates. However, it quickly becomes fragile and unsustainable in larger or more automated settings.
+
+
+\subsection*{Level 2: Code and Data Versioned Together}
+
+In this more robust approach, datasets are versioned alongside the training code. Small files may live directly in version control (e.g., Git), while larger files are stored externally (e.g., S3, GCS) and referenced via unique identifiers. Tools like Git LFS can handle large assets gracefully by storing them remotely and tracking pointers in the repository. Metadata such as labeler identity, labeling time, and tools used should be stored with the data. This level is practical and recommended for most real-world projects.
+
+
+\subsection*{Level 3: Dedicated Data Versioning Systems}
+
+Specialized tools like DVC and Pachyderm enable advanced data versioning. These systems integrate with Git and provide dedicated workflows for tracking data changes, managing pipelines, and reproducing entire experiments. While powerful, they also introduce complexity. Use them only if your project scale or automation level justifies it; otherwise, Level 2 is a better tradeoff between structure and simplicity.
+
+
+
+
+\chapter{Model Storage and Versioning}
+
+Storing trained models is very important because they are a central deliverable of your project. While it can be argued that if the full training pipeline is perfectly preserved—including code versions, random seeds, and data snapshots—the model could always be recreated, this approach is fragile and unnecessarily risky. Pipelines are often complex constructs involving many parts, multiple contributors, and external dependencies. Changes to any of these components can silently break reproducibility. Moreover, retraining models can be computationally expensive. \newline
+
+However, simply saving the model file itself is not enough. To make saved models truly useful and auditable, three elements must be addressed:
+\begin{enumerate}
+    \item \textbf{Model versioning}: A good, structured filename for the model file.
+    \item \textbf{Saving metadata alongside models}: Model hyperparameters, data pipeline, scripts, etc.
+    \item \textbf{Immutable storage of referred artifacts}: The model version and metadata refer to different things, such as specific code, datasets, and preprocessing pipelines. When they are not stored, then just referring to them is useless.
+\end{enumerate}
+
+
+
+\section{Model Version Naming}
+
+Professional model version naming combines two layers:
+
+\begin{enumerate}
+    \item \textbf{Human-Readable Structured Naming}: Quickly conveys the model's key features and training context.
+    \item \textbf{Machine-Level Unique Identifiers}: Guarantees absolute uniqueness and ties the model to its specific training state.
+\end{enumerate}
+
+Both layers are necessary: human-readable names aid navigation and understanding; machine identifiers ensure technical reproducibility.
+
+
+\subsection{Human-Readable Structured Naming}
+A systematic model name structure should include the following elements:
+
+\begin{itemize}
+    \item \textbf{Model Type}: Abbreviation of the model family (e.g., XGB for XGBoost, MLP for multi layered perceptron).
+    \item \textbf{Key Details}: Notable experimental characteristics (e.g., ordinal-aware loss, batch normalization).
+    \item \textbf{Dataset Version}: Unique name for the dataset version used. For this, use a shorter version ID rather than the long, explicit name (otherwise, the whole model version name gets too long).
+    \item \textbf{Objective Function}: The optimization target (e.g., RMSE, cross-entropy).
+    \item \textbf{Timestamp}: Date + Time (YYYMMDD-HHMM).
+\end{itemize}
+
+Example names:
+\begin{itemize}
+    \item \texttt{XGB\_ordaware\_trdv001\_rmse\_20240426-1427}
+    \item \texttt{MLP\_batchnorm\_trdv002\_softmaxce\_20240426-1610}
+\end{itemize}
+
+
+\subsection{Machine-Level Unique Identifiers}
+
+In addition to human-readable names, each model version should be associated with a unique machine identifier:
+\begin{itemize}
+    \item \textbf{Git Commit Hash}: Captures the exact codebase state.
+    \item \textbf{Random Run ID}: Simple fallback if Git is unavailable.
+\end{itemize}
+Combining a structured name with a short commit hash ensures both readability and technical traceability. \newline
+
+An example for a full name consisting of the human-readable structured name and the machine-level unique identifier is:
+\begin{itemize}
+    \item \texttt{XGB\_ordaware\_trdv001\_rmse\_20240426-1427\_e783754}
+\end{itemize}
+
+where e783754 is the Git commit hash.
+
+
+
+\section{Saving Metadata Alongside Models}
+
+Every saved model artifact must have an accompanying metadata file (e.g., JSON or YAML format) containing:
+
+\begin{itemize}
+    \item Model parameters
+    \item Details of the dataset version used
+    \item Feature engineering pipeline description
+    \item Training script version or commit hash
+    \item Evaluation metrics on validation/test data
+    \item Random seed(s)
+    \item Training timestamp
+    \item etc.
+\end{itemize}
+
+The metadata file must be clearly and unambiguously associated with its corresponding model file. A best practice is to use identical filenames, appending a \texttt{\_metadata} suffix before the file extension. For example, if the model is saved as \texttt{XGB\_ordaware\_trdv001\_rmse\_20240426-1427\_e783754.pkl}, the metadata should be saved as \texttt{XGB\_ordaware\_trdv001\_rmse\_20240426-1427\_e783754\_metadata.json}. This convention ensures easy retrieval, avoids ambiguity, and supports automated tooling.
+
+
+
+\section{Immutable Storage of Referred Artifacts}
+
+Saving a model and its metadata is only meaningful if all the files that the metadata refers to remain unchanged. This includes the dataset, preprocessing scripts, training code, and any other supporting artifacts. If any of these are later modified or deleted, the training context becomes unverifiable, and the model cannot be reliably reproduced. \newline
+
+To prevent this, all referenced artifacts must be stored immutably. That means you should never overwrite or reuse versions. Instead, make a copy of each artifact before changing it. This allows you to keep working on new versions without losing the exact state used to train earlier models.
+
+
+
+
+
+
+
+\newpage
+\thispagestyle{empty}
+
+\begin{center}
+    \vspace*{\fill}
+    \Large{\textbf{Thank You for Reading!}}\\[1cm]
+    \normalsize{
+        I appreciate your interest in this eBook. Your feedback, comments, and suggestions for improvement are highly valued and will help me refine this work.
+    }\\[0.5cm]
+    \textbf{Feel free to get in touch:}\\[0.5cm]
+    \begin{tabbing}
+        \hspace{3cm} \= \hspace{6cm} \kill
+        \textbf{Name:} \> Thomas Rauter \\
+        \textbf{Email:} \> \texttt{rauterthomas0@gmail.com} \\
+        \textbf{LinkedIn:} \> \texttt{www.linkedin.com/in/thomas-rauter-003583281} \\
+    \end{tabbing}
+    \normalsize{
+        If you found this eBook helpful, I would kindly appreciate it if you gave it a star on \href{https://github.com/Thomas-Rauter/Navigating-Machine-Learning-Projects}{GitHub}.\\
+        If you notice any errors or have suggestions for improvements, please feel free to open an issue there. Your feedback is valuable!
+    }
+    \\[1cm]
+    \vspace*{\fill}
+\end{center}
+
+
+\end{document}
