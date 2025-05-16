@@ -10,10 +10,10 @@ deciding on which problems to work on in the first place, knowing when to
 collect more data, deciding for the right learning algorithms for your 
 problem, knowing what the best strategies are to deploy your model, etc.
 
-This list includes textbooks, essays, links to courses, and ebooks that I 
-have written (also available as `.tex` files) that explore these themes.
+This list includes textbooks, guides, cheatsheets, links to courses, and ebooks 
+that I have written (also available as `.tex` files) that explore these themes.
 
-When the textbooks were freely available, I directly linked them here with 
+When the resources were freely available, I directly linked them here with 
 the PDF to download (the titles are linked), otherwise, I linked to the website 
 where they are available (for purchase).
 
